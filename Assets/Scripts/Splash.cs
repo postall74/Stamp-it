@@ -1,14 +1,18 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-
-public class SplashScreen : MonoBehaviour
+public class Splash : MonoBehaviour
 {
-    [SerializeField] private float _delay = 2f;
-
-    private IEnumerator Start()
+    public float Time;
+    // Start is called before the first frame update
+    void Start()
     {
-        yield return new WaitForSeconds(_delay);
-        SceneManager.LoadScene(Constants.MenuSceneName);
+        StartCoroutine(StartMenu());
+    }
+
+    IEnumerator StartMenu() {
+        yield return new WaitForSeconds(Time);
+        SceneManager.LoadScene("Menu");
     }
 }

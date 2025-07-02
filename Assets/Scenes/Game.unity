@@ -1555,9 +1555,9 @@ GameObject:
   - component: {fileID: 439911586}
   - component: {fileID: 439911585}
   - component: {fileID: 439911583}
+  - component: {fileID: 439911582}
   - component: {fileID: 439911587}
   - component: {fileID: 439911588}
-  - component: {fileID: 439911582}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1577,11 +1577,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51705a6cbf4964146b602c92a91de2ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 0
-  _ink: {fileID: 0}
-  _starPuff: {fileID: 0}
-  _detectSwipeOnlyAfterRelease: 0
-  _swipeThreshold: 20
+  speed: 300
+  Ink: {fileID: 192166, guid: c6de9c3e430816d40aedcaaf84000975, type: 3}
+  StarPuff: {fileID: 1265133800}
+  detectSwipeOnlyAfterRelease: 0
+  SWIPE_THRESHOLD: 20
 --- !u!65 &439911583
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2748,12 +2748,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1d703261a847904cb48ea1efa469ead, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _vCam1: {fileID: 0}
-  _vCam2: {fileID: 0}
-  _gameUIPanel: {fileID: 0}
-  _gameOverUI: {fileID: 0}
-  _totlaMoves: {fileID: 0}
-  _gameWinTotalMoves: {fileID: 0}
+  vCam1: {fileID: 1184081118}
+  vCam2: {fileID: 804301888}
+  GameUIPanel: {fileID: 712124447}
+  GameOverUI: {fileID: 2038852535}
+  totlaMoves: {fileID: 21672891}
+  GameWinTotalMoves: {fileID: 478959106}
 --- !u!4 &731120580
 Transform:
   m_ObjectHideFlags: 0
@@ -4326,6 +4326,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1240250551}
   m_CullTransparentMesh: 0
+--- !u!1 &1265133800 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 164832, guid: cc4edba986607ba48b17927b27d25e4e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1293047093}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1265133803 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 419440, guid: cc4edba986607ba48b17927b27d25e4e,

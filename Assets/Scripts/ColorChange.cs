@@ -1,17 +1,17 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class ColorChange : MonoBehaviour
 {
-    [SerializeField] private Color[] _colors;
 
-    private void Start()
+    public Color[] colors;  
+    
+    // Start is called before the first frame update
+    void Start()
     {
-        SetRandomColor();
+        int randomColor = Random.Range(0, colors.Length);
+        GetComponent<MeshRenderer>().material.color = colors[randomColor];
     }
 
-    private void SetRandomColor()
-    {
-        int randomColorIndex = Random.Range(0, _colors.Length);
-        GetComponent<MeshRenderer>().material.color = _colors[randomColorIndex];
-    }
 }

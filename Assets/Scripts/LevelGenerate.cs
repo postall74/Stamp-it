@@ -1,94 +1,77 @@
-﻿using UnityEngine;
-using UnityEngine.UI; // Добавлено для работы с Text
-using System;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 
-public class LevelGenerator : MonoBehaviour
+public class LevelGenerate : MonoBehaviour
 {
-    [SerializeField] private Texture2D[] _maps;
-    [SerializeField] private ColorToPrefab[] _colorMappings;
-    [SerializeField] private Transform _player;
-    [SerializeField] private GameObject _floorCube;
-    [SerializeField] private Color _floorColor;
-    [SerializeField] private Text _levelText; // Требует UnityEngine.UI
+    public Texture2D[] map;
+    
+    public ColorToPrefab[] ColorMapping;
+    public Transform Player;
+    GameObject Floor;
+    public GameObject FloorCube;
+    public Color FloorColor;
+    int Lvl;
 
-    private int _currentLevelIndex;
-    private GameObject _floor;
-
-    private void Start()
+    public Text LevelText;
+    // Start is called before the first frame update
+    void Start()
     {
-        _currentLevelIndex = PlayerPrefs.GetInt("Level", 0);
-        _levelText.text = $"LEVEL: {_currentLevelIndex}";
+        Lvl = PlayerPrefs.GetInt("Level", 0);
+        LevelText.text = "LEVEL : " + (Lvl);
         GenerateLevel();
     }
 
-    private void GenerateLevel()
-    {
+    public void GenerateLevel() {
+
         CreateFloor();
-        GenerateTiles();
-    }
-
-    private void CreateFloor()
-    {
-        _floor = new GameObject("Floor");
-        var floor = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        floor.transform.SetParent(_floor.transform);
-
-        Texture2D currentMap = _maps[_currentLevelIndex];
-        Vector3 floorPosition = new Vector3(
-            currentMap.width / 2f - 0.5f,
-            Constants.FloorHeight,
-            currentMap.height / 2f - 0.5f
-        );
-
-        floor.transform.position = floorPosition;
-        floor.transform.localScale = new Vector3(
-            currentMap.width + 0.5f,
-            0.5f,
-            currentMap.height + 0.5f
-        );
-
-        floor.GetComponent<MeshRenderer>().material.color = _floorColor;
-    }
-
-    private void GenerateTiles()
-    {
-        Texture2D currentMap = _maps[_currentLevelIndex];
-
-        for (int x = 0; x < currentMap.width; x++)
-        {
-            for (int y = 0; y < currentMap.height; y++)
-            {
-                GenerateTile(x, y, currentMap);
+        for (int x = 0; x < map[Lvl].width; x++) {
+            for (int y = 0; y < map[Lvl].height; y++) {
+                Vector3 pos = new Vector3(x, -0.5f, y);
+                GameObject BaseTile = Instantiate(FloorCube, pos, transform.rotation);
+         //       BaseTile.transform.SetParent(Floor.transform);
+                GenerateTiles(x,y);
+               // Debug.Log(" " + map[Lvl]);
             }
         }
     }
 
-    private void GenerateTile(int x, int y, Texture2D map)
-    {
-        Color pixelColor = map.GetPixel(x, y);
-        if (pixelColor.a == 0) return;
+    public void GenerateTiles(int x, int y) {
+        Color PixelColor = map[Lvl].GetPixel(x, y);
+        if (PixelColor.a == 0) {
+            
+            return;
+        }
+        foreach (ColorToPrefab colormappings in ColorMapping) {
+          
+            if (colormappings.color.Equals(PixelColor)) {
+                
+                Vector3 pos = new Vector3(x, 0, y);
 
-        foreach (ColorToPrefab mapping in _colorMappings)
-        {
-            if (mapping.Color.Equals(pixelColor))
-            {
-                Vector3 position = new Vector3(x, 0, y);
-
-                if (mapping.Prefab.CompareTag(Constants.EnemyTagName))
+                if (colormappings.prefab.name.Equals("Enemy"))
                 {
-                    _player.position = new Vector3(x, Constants.PlayerYPosition, y);
+
+                    Player.position = new Vector3(x, 0.5f, y);
                 }
                 else
                 {
-                    Instantiate(mapping.Prefab, position, Quaternion.identity);
+                    Instantiate(colormappings.prefab, pos, transform.rotation);
                 }
             }
+
         }
     }
 
-    public Vector2 GetLevelDimensions()
-    {
-        Texture2D currentMap = _maps[_currentLevelIndex];
-        return new Vector2(currentMap.width, currentMap.height);
+    public void CreateFloor() {
+        Floor = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        Floor.transform.position = new Vector3((map[Lvl].width/ 2f)-0.5f, -0.9f, (map[Lvl].height/2f)-0.5f);
+        Floor.transform.localScale = new Vector3(map[Lvl].width + 0.5f, 0.5f, map[Lvl].height + 0.5f);
+        Floor.transform.GetComponent<MeshRenderer>().material.SetColor("_Color", FloorColor);
+    }
+
+    public Vector2 MoveArea() {
+        Vector2 dimen = new Vector2(map[Lvl].width, map[Lvl].height);
+        return dimen;
     }
 }
