@@ -1,68 +1,54 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using GamePolygon;
+
 public class MenuController : MonoBehaviour
 {
-    int CurrentLevel;
-    public Text LevelText;
-    public Text Soundtext;
+    [SerializeField] private Text _levelText;
+    [SerializeField] private Text _soundText;
+    [SerializeField] private string _moreGamesUrl;
+    [SerializeField] private string _rateUsUrl;
 
-    [Header("ABOUT")]
-    public string MoreGamesURL;
-    public string RateUsURL;
-    
-  
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         Application.targetFrameRate = 60;
-         CurrentLevel = PlayerPrefs.GetInt("Level", 0);
-         LevelText.text = "LEVEL : " + (CurrentLevel);
+        int currentLevel = PlayerPrefs.GetInt("Level", 0);
+        _levelText.text = $"LEVEL: {currentLevel}";
         SoundManager.Instance.PlayMusic(SoundManager.Instance.Menu);
-
-
-
+        UpdateSoundButtonText();
     }
 
-    public void StartGame() {
-        PlayButton();
-        SceneManager.LoadScene("Game");
+    public void StartGame()
+    {
+        PlayButtonSound();
+        LevelManager.LoadGameScene();
     }
 
-    public void StartShop() {
-        PlayButton();
-        SceneManager.LoadScene("Shop");
-    }
-
-    public void MuteSound() {
-        if (SoundManager.Instance.IsMusicOff())
-        {
-            Soundtext.text = "MUSIC ON";
-        }
-        else {
-            Soundtext.text = "MUSIC OFF";
-
-        }
-        PlayButton();
+    public void ToggleSound()
+    {
+        PlayButtonSound();
         SoundManager.Instance.ToggleMusic();
-        
+        UpdateSoundButtonText();
     }
 
-    public void OpenMoreGamePage() {
-        PlayButton();
-        Application.OpenURL(MoreGamesURL);
+    private void UpdateSoundButtonText()
+    {
+        _soundText.text = SoundManager.Instance.IsMusicOff ? "MUSIC OFF" : "MUSIC ON";
     }
 
-    public void OpenRateUs() {
-        PlayButton();
-        Application.OpenURL(RateUsURL);
+    public void OpenMoreGames()
+    {
+        PlayButtonSound();
+        Application.OpenURL(_moreGamesUrl);
     }
 
-    void PlayButton() {
-        SoundManager.Instance.PlaySound(SoundManager.Instance.button);
+    public void RateGame()
+    {
+        PlayButtonSound();
+        Application.OpenURL(_rateUsUrl);
+    }
 
+    private void PlayButtonSound()
+    {
+        SoundManager.Instance.PlaySound(SoundManager.Instance.Button);
     }
 }

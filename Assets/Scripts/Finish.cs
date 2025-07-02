@@ -1,31 +1,33 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Finish : MonoBehaviour
 {
-    int TotalCoin;
-    public Sprite sprite;
-    public GameObject RedOk;
-    bool isActivated;
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Sprite _activeSprite;
+    [SerializeField] private GameObject _redOk;
+
+    private BoxCollider _boxCollider;
+    private bool _isActivated;
+    private CoinCounter _coinCounter;
+
+    private void Start()
     {
-        isActivated = false;
+        _boxCollider = GetComponent<BoxCollider>();
+        _coinCounter = FindObjectOfType<CoinCounter>();
+        _boxCollider.enabled = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (!isActivated)
+        if (!_isActivated && _coinCounter.RemainingCoins <= 0)
         {
-            TotalCoin = GameObject.FindGameObjectsWithTag("Coin").Length;
-            if (TotalCoin <= 0)
-            {
-                RedOk.transform.GetComponent<SpriteRenderer>().sprite = sprite;
-                gameObject.transform.GetComponent<BoxCollider>().enabled = true;
-                isActivated = true;
-            }
+            ActivateFinish();
         }
+    }
+
+    private void ActivateFinish()
+    {
+        _redOk.GetComponent<SpriteRenderer>().sprite = _activeSprite;
+        _boxCollider.enabled = true;
+        _isActivated = true;
     }
 }

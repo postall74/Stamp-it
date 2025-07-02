@@ -2580,10 +2580,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deeeb4635c8f5524991a1c0d58dc005a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LevelText: {fileID: 619267440}
-  Soundtext: {fileID: 640109350}
-  MoreGamesURL: '#'
-  RateUsURL: '#'
+  _levelText: {fileID: 619267440}
+  _soundText: {fileID: 640109350}
+  _moreGamesUrl: 
+  _rateUsUrl: 
 --- !u!4 &1299431242
 Transform:
   m_ObjectHideFlags: 0
@@ -3332,9 +3332,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bc58aec0f619ba44a8f60a02d9fb0a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colors:
-  - {r: 1, g: 0.79607844, b: 0, a: 1}
-  - {r: 0.7264151, g: 0, b: 0, a: 1}
+  _colors:
+  - {r: 0.9433962, g: 0, b: 0, a: 0}
+  - {r: 0.16907978, g: 1, b: 0, a: 0}
+  - {r: 0, g: 0.3960271, b: 1, a: 0}
+  - {r: 0.7491455, g: 0, b: 1, a: 0}
 --- !u!23 &1614306114
 MeshRenderer:
   m_ObjectHideFlags: 0
